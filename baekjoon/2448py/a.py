@@ -24,9 +24,13 @@ def init(n):
         layout.append(tmp)
     return layout
 
-def draw(layout):
-    n = len(layout)
-    #for i in range(n//2, n):
+def draw(layout, n):
+    print(n)
+    for i in range(n//2, n):
+        for j in range(i, 2*n-i-1):
+            layout[i][j] = " "
+    if((n//3)//2 > 0):
+        return draw(layout, n//2)
     return layout
 
 def print_layout(layout):
@@ -35,4 +39,4 @@ def print_layout(layout):
             print(space, end="")
         print()
 
-print_layout(draw(init(n)))
+print_layout(draw(init(n), n))
