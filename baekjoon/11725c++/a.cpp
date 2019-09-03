@@ -9,14 +9,15 @@ int n;
 class Node {
 public:
 	Node* parent;
-	Node* left;
-	Node* right;
+	Node** children;
 	int data;
 
 	Node() {}
 	Node(Node* _parent, int _data) {
 		parent = _parent;
 		data = _data;
+		left = nullptr;
+		right = nullptr;
 	}
 };
 
@@ -47,7 +48,7 @@ private:
 
 public:
 	Tree() {
-		tree = new Node(NULL, 1);
+		tree = new Node(nullptr, 1);
 	}
 
 	void push(int a, int b) {
@@ -56,17 +57,17 @@ public:
 		while (stack->size > 0) {
 			Node node = stack->pop();
 			if (node.data == a) {
-				if (node.left != NULL) node.left = new Node(&node, b);
-				else if (node.right != NULL) node.right = new Node(&node, b);
+				if (node.left != nullptr) node.left = new Node(&node, b);
+				else if (node.right != nullptr) node.right = new Node(&node, b);
 				break;
 			}
 			else if (node.data == b) {
-				if (node.left != NULL) node.left = new Node(&node, a);
-				else if (node.right != NULL) node.right = new Node(&node, a);
+				if (node.left != nullptr) node.left = new Node(&node, a);
+				else if (node.right != nullptr) node.right = new Node(&node, a);
 				break;
 			}
-			if (node.left != NULL) stack->push(*node.left);
-			if (node.right != NULL) stack->push(*node.right);
+			if (node.left != nullptr) stack->push(*node.left);
+			if (node.right != nullptr) stack->push(*node.right);
 		}
 		delete stack;
 	}
