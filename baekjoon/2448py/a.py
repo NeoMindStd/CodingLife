@@ -1,42 +1,35 @@
 n = int(input())
 
-def dumb():
-    for i in range(n):
-        #print(len(range(n)),
-        #      len(range(n, i, -1)),
-        #      len(range(2*i+1)))
-        for j in range(n, i, -1):
-            print(" ", end="")
-        for j in range(2*i+1):
-            print("*", end="")
-        print()
+m = 2*n-1
+triangle = [[' ']*(m) for _ in range(n)]
 
-def init(n):
-    layout = list()
-    for i in range(n):
-        tmp = list()
-        for j in range(n-i-1):
-            tmp.append(" ")
-        for j in range(2*i+1):
-            tmp.append("*")
-        for j in range(2*i+1, 2*n):
-            tmp.append(" ")
-        layout.append(tmp)
-    return layout
+for i in range(n):
+    for j in range(n-1-i, n+i):
+        triangle[i][j] = ' '
 
-def draw(layout, n):
-    print(n)
-    for i in range(n//2, n):
-        for j in range(i, 2*n-i-1):
-            layout[i][j] = " "
-    if((n//3)//2 > 0):
-        return draw(layout, n//2)
-    return layout
+def draw_space(cnt, end, row, col, pos):    
+    if row == 0:
+        triangle[row][col] = \
+        triangle[row+1][col-1] = triangle[row+1][col+1] = \
+        triangle[row+2][col-2] = triangle[row+2][col-2] = \
+        triangle[row+2][col-1] = triangle[row+2][col-0] = \
+        triangle[row+2][col+1] = triangle[row+2][col+2] = '*'
+    else:
+        if pos != "mid":
+            for i in range(row, row+cnt):
+                for j in range(col-i+row, col+i-row+1):
+                    triangle[i][j] = triangle[i-cnt][j + (cnt if pos=="left" else -cnt)]
+    
+    if pos != "mid" or cnt * 2 > end:
+        return
+    draw_space(cnt, end, cnt, col-cnt, "left")
+    draw_space(cnt, end, cnt, col+cnt, "right")
+    draw_space(cnt*2, end, cnt*2, col, "mid")
 
-def print_layout(layout):
-    for lane in layout:
-        for space in lane:
-            print(space, end="")
-        print()
+draw_space(3, n, 0, m//2, "mid")
 
-print_layout(draw(init(n), n))
+result = ''
+for i in range(len(triangle)):
+    result += ''.join(map(str,triangle[i])) + '\n'
+
+print(result)
