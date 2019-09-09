@@ -15,22 +15,22 @@ pri = prime_list(n+1)
 sp = set(pri)
 
 sang = set()
-exp = set()
 
 for num in pri:
-    if num in sang | exp :
+    if num in sang :
         continue
     tmp = set()
     tn = num
+    cnt = 0
     while True:
         tmp.add(tn)
         tn = sum([int(i)**2 for i in list(str(tn))])
         if tn == 1:
             sang |= tmp & sp
             break
-        if tn in tmp:
-            exp |= tmp
+        if tn in tmp or cnt > 100:
             break
+        cnt += 1
 sang = list(sang)
 sang.sort()
 print("\n".join(map(str, sang)))
