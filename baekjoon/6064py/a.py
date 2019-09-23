@@ -1,3 +1,5 @@
+import sys
+
 def gcd(x, y):
     while y != 0:
         r = x % y
@@ -8,22 +10,19 @@ def gcd(x, y):
 def lcm(x, y):
     return x*y//gcd(x,y)
 
-for i in range(int(input())):
-    M, N, x, y = tuple(map(int, input().split()))
+for i in range(int(sys.stdin.readline())):
+    M, N, x, y = tuple(map(int, sys.stdin.readline().split()))
 
-    xx = yy = k = 0
     end = lcm(M, N)
-    flag = True
-    while True:
-        k += 1
-        tmp = (xx+1) % (M+1)
-        xx = tmp if tmp != 0 else 1
-        tmp = (yy+1) % (N+1)
-        yy = tmp if tmp != 0 else 1
-        if (x, y) == (xx, yy):
+    
+    if True if M > N else (False if M < N else x > y):
+        years = [x + M*i for i in range((end-x)//M+1)]
+    else:
+        years = [y + N*i for i in range((end-y)//N+1)]
+
+    flag = False
+    for year in years:
+        if (year%M, year%N) == (x%M, y%N):
+            flag = True
             break
-        if k >= end:
-            flag = False
-            break
-    print(k if flag else -1)
- 
+    print(year if flag else -1)
