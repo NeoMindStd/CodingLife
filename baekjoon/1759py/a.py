@@ -1,23 +1,24 @@
 l, c = map(int, input().split())
-chars = input().split()
-chars.sort()
-keys = []
+string = input().split()
+string.sort()
 
-for i in range(c-3):
-    for j in range(i+1, c-2):
-        for k in range(j+1, c-1):
-            for l in range(k+1, c):
-                keys.append(chars[i]+chars[j]+chars[k]+chars[l])
+mo = ('a', 'e', 'i', 'o', 'u')
+answers = set()
 
-answers = []
-for key in keys:
-    cnt = 0
-    for char in key:
-        if char in ['a', 'e', 'i', 'o', 'u']:
-            cnt += 1
-    if cnt >= 1 and cnt < 3:
-        answers.append(key)
+def create(i, m_cnt, z_cnt, created):
+    if m_cnt+z_cnt >= l:
+        if m_cnt >= 1 and z_cnt >= 2:
+            answers.add(created)
+        return
+    if i >= c:
+        return
+    if string[i] in mo:
+        create(i+1, m_cnt+1, z_cnt, created+string[i])
+    else:
+        create(i+1, m_cnt, z_cnt+1, created+string[i])
+    create(i+1, m_cnt, z_cnt, created)
 
-for answer in answers:
-    print(answer)
-            
+create(0, 0, 0, "")
+
+print('\n'.join(map(str, sorted(list(answers)))))
+        
