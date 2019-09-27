@@ -3,9 +3,11 @@ import collections
 n = int(input())
 cards = collections.deque([i for i in range(n, 0, -1)])
 
+result = []
 while True:
-    tmp = cards.pop()
+    result.append(cards.pop())
     if not cards:
-        print(tmp)
         break
     cards.appendleft(cards.pop())
+
+print(' '.join(map(str, result)))
