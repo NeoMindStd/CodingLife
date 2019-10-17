@@ -1,68 +1,53 @@
-N, M = tuple(map(int, input().split()))
+import collections
 
-maze = list()
-for i in range(N):
-    row = list(map(int, input()))
-    maze.append([row[i] for i in range(len(row))])
+n, m = map(int, input().split())
+maze = [[0]*(m+2)]
+for _ in range(n):
+    maze.append([0]+list(map(int, " ".join(map(str, input())).split()))+[0])
+maze += [[0]*(m+2)]
 
-s = list()
-x = y = c = d = 0
-s.append((x, y, c, d))
-while (x, y) != (N-1, M-1):
-    print(x, y, c, d)
-    if d > 3:
-        x, y, c, d = s.pop()
-        d += 1
-    c += 1
-    if d == 0:
-        if y+1 < M:
-            y += 1
-            if maze[x][y] == 0:
-                y -= 1
-                d += 1
-                c -= 1
-                continue
+Q = collections.deque([])
+deQ = Q.popleft
+enQ = Q.append
+
+visitFlag = [[False]*(m+2) for  _ in range(n+2)]
+
+class Pos:
+    def  __init__(self, r, c, d, cnt):
+        self.r = r
+        self.c = c
+        self.d = d
+        self.cnt = cnt
+
+visitFlag[1][1] = True
+enQ(Pos(1, 1, 0, 1))
+
+while Q:
+    pos = deQ()
+    if pos.r == n and pos.c == m:
+        print(pos.cnt)
+        break
+    cnt = 0
+    while cnt < 4:
+        if pos.d == 0: 
+            if(maze[pos.r-1][pos.c] == 1 and
+               not visitFlag[pos.r-1][pos.c]):
+                enQ(Pos(pos.r-1, pos.c, 0, pos.cnt+1))
+                visitFlag[pos.r-1][pos.c] = True
+        elif pos.d == 1:
+            if(maze[pos.r][pos.c+1] == 1 and
+               not visitFlag[pos.r][pos.c+1]):
+                enQ(Pos(pos.r, pos.c+1, 0, pos.cnt+1))
+                visitFlag[pos.r][pos.c+1] = True
+        elif pos.d == 2:
+            if(maze[pos.r+1][pos.c] == 1 and
+               not visitFlag[pos.r+1][pos.c]):
+                enQ(Pos(pos.r+1, pos.c, 0, pos.cnt+1))
+                visitFlag[pos.r+1][pos.c] = True
         else:
-            d += 1
-            c -= 1
-            continue
-    elif d == 1:
-        if x+1 < N:
-            x += 1
-            if maze[x][y] == 0:
-                x -= 1
-                d += 1
-                c -= 1
-                continue
-        else:
-            d += 1
-            c -= 1
-            continue
-    elif d == 2:
-        if y-1 > 0:
-            y -= 1
-            if maze[x][y] == 0:
-                y += 1
-                d += 1
-                c -= 1
-                continue
-        else:
-            d += 1
-            c -= 1
-            continue
-    elif d == 3:
-        if x-1 > 0:
-            x -= 1
-            if maze[x][y] == 0:
-                x += 1
-                d += 1
-                c -= 1
-                continue
-        else:
-            d += 1
-            c -= 1
-            continue
-    s.append((x, y, c, d))
-    d = 0
-print(c)
-    
+            if(maze[pos.r][pos.c-1] == 1 and
+               not visitFlag[pos.r][pos.c-1]):
+                enQ(Pos(pos.r, pos.c-1, 0, pos.cnt+1))
+                visitFlag[pos.r][pos.c-1] = True
+        pos.d = (pos.d+1)%4
+        cnt += 1
