@@ -16,8 +16,9 @@ while True:
                 h[i][j],tmp=2,[i,j,0, 0] # [행, 열, 방향, 방향시도횟수]
                 stack.append(tmp)
                 break
+        # 스택이 안비었다면(새로 단지를 체크할 아파트가 선정되었다면) 현재 반복문 종료
         if stack: break
-    # 모두 체크되었다면 종료합니다
+    # 스택이 비었다면(모든 단지가 체크되었다면) 종료합니다
     if not stack: break
     # 현재 단지의 아파트 개수를 카운팅하는 변수
     cnt = 1
@@ -26,27 +27,26 @@ while True:
         while tmp[3]<4:
             # 북쪽
             if tmp[2]==0 and tmp[0] > 0 and h[tmp[0]-1][tmp[1]] == 1:
-                tmp = [tmp[0]-1, tmp[1], tmp[2], 0]
                 stack.append(tmp)
+                tmp = [tmp[0]-1, tmp[1], tmp[2], 0]
                 h[tmp[0]][tmp[1]]=2
                 cnt+=1
-                break
             # 동쪽
             elif tmp[2]==1 and tmp[1] < n-1 and h[tmp[0]][tmp[1]+1] == 1:
-                tmp = [tmp[0], tmp[1]+1, tmp[2], 0]
                 stack.append(tmp)
+                tmp = [tmp[0], tmp[1]+1, tmp[2], 0]
                 h[tmp[0]][tmp[1]]=2
                 cnt+=1
             # 남쪽
             elif tmp[2]==2 and tmp[0] < n-1 and h[tmp[0]+1][tmp[1]] == 1:
-                tmp = [tmp[0]+1, tmp[1], tmp[2], 0]
                 stack.append(tmp)
+                tmp = [tmp[0]+1, tmp[1], tmp[2], 0]
                 h[tmp[0]][tmp[1]]=2
                 cnt+=1
             # 서쪽
             elif tmp[2]==3 and tmp [1] > 0 and h[tmp[0]][tmp[1]-1] == 1:
-                tmp = [tmp[0], tmp[1]-1, tmp[2], 0]
                 stack.append(tmp)
+                tmp = [tmp[0], tmp[1]-1, tmp[2], 0]
                 h[tmp[0]][tmp[1]]=2
                 cnt+=1
             # 현재 진행방향이 가로막힌 경우
