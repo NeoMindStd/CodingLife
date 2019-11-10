@@ -20,6 +20,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2817부분수열의합c++",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2805농작물수확하기c++", "2805농작물수확하기c++\2805농작물수확하기c++.vcxproj", "{AA3D5CE2-3D5E-4B36-B65A-C16EB36DC9AC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1767SWTest샘플문제프로세서연결하기", "1767SWTest샘플문제프로세서연결하기\1767SWTest샘플문제프로세서연결하기.vcxproj", "{8D146F13-DB39-47E6-BBF3-D5F05F20E66C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -76,6 +78,14 @@ Global
 		{AA3D5CE2-3D5E-4B36-B65A-C16EB36DC9AC}.Release|x64.Build.0 = Release|x64
 		{AA3D5CE2-3D5E-4B36-B65A-C16EB36DC9AC}.Release|x86.ActiveCfg = Release|Win32
 		{AA3D5CE2-3D5E-4B36-B65A-C16EB36DC9AC}.Release|x86.Build.0 = Release|Win32
+		{8D146F13-DB39-47E6-BBF3-D5F05F20E66C}.Debug|x64.ActiveCfg = Debug|x64
+		{8D146F13-DB39-47E6-BBF3-D5F05F20E66C}.Debug|x64.Build.0 = Debug|x64
+		{8D146F13-DB39-47E6-BBF3-D5F05F20E66C}.Debug|x86.ActiveCfg = Debug|Win32
+		{8D146F13-DB39-47E6-BBF3-D5F05F20E66C}.Debug|x86.Build.0 = Debug|Win32
+		{8D146F13-DB39-47E6-BBF3-D5F05F20E66C}.Release|x64.ActiveCfg = Release|x64
+		{8D146F13-DB39-47E6-BBF3-D5F05F20E66C}.Release|x64.Build.0 = Release|x64
+		{8D146F13-DB39-47E6-BBF3-D5F05F20E66C}.Release|x86.ActiveCfg = Release|Win32
+		{8D146F13-DB39-47E6-BBF3-D5F05F20E66C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
