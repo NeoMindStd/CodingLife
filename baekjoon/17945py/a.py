@@ -1,0 +1,5 @@
+a,b=map(int,input().split())
+s=set()
+s.add(int(-2*a+((2*a)**2-4*b)**.5)//2)
+s.add(int(-2*a-((2*a)**2-4*b)**.5)//2)
+print(*sorted(s))
