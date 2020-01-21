@@ -1,0 +1,6 @@
+x,y,n=map(int,input().split())
+for i in range(1,n+1):
+    if i%x==0==i%y:print('FizzBuzz')
+    elif i%x==0:print('Fizz')
+    elif i%y==0:print('Buzz')
+    else:print(i)
