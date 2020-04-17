@@ -4,7 +4,7 @@ while True:
     a,b,c=map(int,read().split())
     if a==b==c==0:
         break
-    elif (c-a)%b != 0:
-        print('X')
     else:
-        print((c-a)//b+1)
+        t=abs((c-a)//b)
+        if (c-a)%b != 0 or a+t*b!=c: print('X')
+        else: print(t+1)
