@@ -1,24 +1,25 @@
 import sys;read=sys.stdin.readline
 import collections
-n,m=map(int,read().split())
+_,m=map(int,read().split())
 d={}
-for i in range(n):
-    l=list(map(int,read().split()))
-    try:d[l[0]].add((l[1],0))
-    except:d[l[0]]=set([(l[1],0)])
-    try:d[l[1]].add((l[0],0))
-    except:d[l[1]]=set([(l[0],0)])
+for i in range(m):
+    a,b=map(int,read().split())
+    try:d[a].append((b,1))
+    except:d[a]=[(b,1)]
+    try:d[b].append((a,1))
+    except:d[b]=[(a,1)]
 r={}
 for k in d.keys():
-    s=set([k])
+    s=set([k]+[link[0]for link in d[k]])
     q=collections.deque(d[k])
     while q:
         t=q.popleft()
-        s.add(t[0])
-        try:
-            for p in d[t[0]]:
-                if p[0] not in s:q.append((p[0],p[1]+1))
-        except:continue
-        print(k,q)
-    r[k]=t[1]
-print(list(r.items()))
+        print(k,t,s)
+        try:r[k]+=t[1]
+        except:r[k]=t[1]
+        for p in d[t[0]]:
+            if p[0] not in s:
+                q.append((p[0],p[1]+t[1]))
+                s.add(p[0])
+print(min(r.items(),key=lambda x:(x[1],x[0]))[0])
+print(r.items())
