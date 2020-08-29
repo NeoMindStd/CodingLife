@@ -1,25 +1,36 @@
 import sys;read=sys.stdin.readline
-import collections
-_,m=map(int,read().split())
-d={}
+from collections import deque
+
+# 입력
+n,m=map(int,read().split())
+d=[[0]*n for _ in range(n)] # d[a-1][b-1] = d[b-1][a-1] = a와 b의 친구 단계
+
 for i in range(m):
     a,b=map(int,read().split())
-    try:d[a].append((b,1))
-    except:d[a]=[(b,1)]
-    try:d[b].append((a,1))
-    except:d[b]=[(a,1)]
-r={}
-for k in d.keys():
-    s=set([k]+[link[0]for link in d[k]])
-    q=collections.deque(d[k])
+    d[a-1][b-1] = d[b-1][a-1] = 1
+
+# print(d)
+
+# BFS 준비
+q=deque([])
+enQ=q.append
+deQ=q.popleft
+
+# BFS
+for i in range(n):
+    q.clear()
+    visited = [False]*n
+    enQ((i,0))
+    visited[i] = True
+    
     while q:
-        t=q.popleft()
-        print(k,t,s)
-        try:r[k]+=t[1]
-        except:r[k]=t[1]
-        for p in d[t[0]]:
-            if p[0] not in s:
-                q.append((p[0],p[1]+t[1]))
-                s.add(p[0])
-print(min(r.items(),key=lambda x:(x[1],x[0]))[0])
-print(r.items())
+        j,lv=deQ()
+        for k in range(n):
+            if not visited[k] and d[j][k] == 1:
+                d[i][k] = d[k][i] = lv+d[j][k]
+                enQ((k,lv+d[j][k]))
+                visited[k] = True
+# print(d)
+
+r = list(map(sum,d))
+print(r.index(min(r))+1)
