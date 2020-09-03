@@ -1,0 +1,6 @@
+v = int(input())
+s = input()
+a = s.count('A')
+if a > v/2: print('A')
+elif a < v/2: print('B')
+else: print('Tie')
