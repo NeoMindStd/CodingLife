@@ -1,27 +1,24 @@
 import re
 
 def solution(word, pages):
-    print('@@@@@@@@@@@@@@@@@@@@@@@')
     n = len(pages)
 
     urls = [''] * n
     extern_urls = [[] for _ in range(n)]
     scores = [{'basic':0, 'extern_link':0, 'link':[0,1]} for _ in range(n)]
-    
+
     p_word = re.compile(f'[^a-zA-Z]{word}[^a-zA-Z]', re.I | re.S)
     p_head = re.compile(f'<head>.*</head>', re.I | re.S)
     p_head_meta_url = re.compile(f'<meta.*".*://.*"', re.I)
     p_url = re.compile(f'".*://.*"', re.I)
     p_body = re.compile(f'<body>.*</body>', re.I | re.S)
-    p_a_url = re.compile(f'<a href=".*"', re.I)
-        
+    p_a_url = re.compile(f'<a href="\S*"', re.I)
+
     for i in range(n):
 
         page_words_replaced = re.sub(f'[^a-zA-Z]{word}[^a-zA-Z]', f'=={word}==', pages[i], flags = re.I | re.S)
-        print(page_words_replaced)
         page_words = p_word.findall(page_words_replaced)
         scores[i]['basic'] = len(page_words)
-        print(page_words)
 
         page_head = p_head.search(pages[i])
 
@@ -29,20 +26,14 @@ def solution(word, pages):
 
         page_url = p_url.search(page_meta_url.group())
         urls[i] = page_url.group()[1:-1].split('://')[1]
-        
+
         page_body = p_body.search(pages[i])
 
         tmp = re.sub(f'<a href=".*{urls[i]}"', '', page_body.group(), flags = re.I)
-        print(tmp)
-        print('========')
         page_extern_links = p_a_url.findall(tmp)
         page_extern_links = list(map(lambda x:x[:-1].split('://')[1], page_extern_links))
-        print(page_extern_links)
-        print('========')
         extern_urls[i] = page_extern_links
         scores[i]['extern_link'] = len(page_extern_links)
-        
-        print('++++++++++++++++++++++++++++++++')
 
     for i in range(n):
         for j in range(n):
@@ -50,13 +41,9 @@ def solution(word, pages):
             if extern_urls[j].count(urls[i]) > 0:
                 scores[i]['link'][0] = scores[i]['link'][0] * scores[j]['extern_link'] +  scores[j]['basic'] * scores[i]['link'][1]
                 scores[i]['link'][1] *= scores[j]['extern_link']
-            
-    print(urls)
-    print(extern_urls)
-    print(scores)
 
     matching_scores = {i:scores[i]['basic'] + scores[i]['link'][0]/scores[i]['link'][1] for i in range(n)}
-    
+
     return max(matching_scores.items(), key=lambda x:(x[1], -x[0]))[0]
 
 
